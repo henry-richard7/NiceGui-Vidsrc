@@ -4,7 +4,7 @@ from httpx import AsyncClient
 class TmdbAPI:
     def __init__(self) -> None:
         self.tmdb_api_key = "da63548086e399ffc910fbc08526df05"
-        self.image_base_url = "https://image.tmdb.org/t/p/original"
+        self.image_base_url = "https://image.tmdb.org/t/p/w500"
         self.http_client = AsyncClient()
 
     async def external_id_tv(self, tmdb_id: int) -> str:

@@ -6,8 +6,8 @@ tmdb_api = TmdbAPI()
 
 
 @ui.page("/")
-async def home_page():
-    movies = await tmdb_api.discover_movies()
+async def home_page(page_no: int = 1):
+    movies = await tmdb_api.discover_movies(page_no=page_no)
 
     max_pages = movies["max_pages"]
     items = movies["items"]
@@ -17,6 +17,10 @@ async def home_page():
     with ui.grid(columns=6):
         for item in items:
             item_card.item_card(item["title"], item["poster"], item["id"])
+
+    p = ui.pagination(
+        1, 10, direction_links=True, on_change=lambda x: ui.open(f"/?page_no={x.value}")
+    )
 
 
 ui.run(port=5000)

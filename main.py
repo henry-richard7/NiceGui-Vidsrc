@@ -18,8 +18,12 @@ async def home_page(page_no: int = 1):
         for item in items:
             item_card.item_card(item["title"], item["poster"], item["id"])
 
-    p = ui.pagination(
-        1, 10, direction_links=True, on_change=lambda x: ui.open(f"/?page_no={x.value}")
+    ui.pagination(
+        1,
+        10,
+        direction_links=True,
+        on_change=lambda x: ui.open(f"/?page_no={x.value}"),
+        value=page_no,
     )
 
 

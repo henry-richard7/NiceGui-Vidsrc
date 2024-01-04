@@ -34,7 +34,7 @@ async def home_page(page_no: int = 1):
 
 
 @ui.page("/shows")
-async def home_page(page_no: int = 1):
+async def tv_shows(page_no: int = 1):
     movies = await tmdb_api.discover_shows(page_no=page_no)
     items = movies["items"]
 

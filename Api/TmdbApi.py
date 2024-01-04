@@ -26,6 +26,7 @@ class TmdbAPI:
             "language": "en-US",
             "sort_by": "popularity.desc",
             "api_key": self.tmdb_api_key,
+            "region": "in",
             "page": page_no,
         }
 

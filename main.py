@@ -48,6 +48,7 @@ async def home_page(page_no: int = 1):
                 title=item["title"],
                 poster=item["poster"],
                 href=item["id"],
+                mode="shows",
                 release_date=item["release_date"],
                 ratings=item["ratings"],
             )

@@ -5,6 +5,7 @@ class TmdbAPI:
     def __init__(self) -> None:
         self.tmdb_api_key = "da63548086e399ffc910fbc08526df05"
         self.image_base_url = "https://image.tmdb.org/t/p/w500"
+        self.image_base_url_original = "https://image.tmdb.org/t/p/original"
         self.http_client = AsyncClient()
 
     async def external_id_tv(self, tmdb_id: int) -> str:
@@ -41,7 +42,7 @@ class TmdbAPI:
                 {
                     "id": item.get("id"),
                     "title": item.get("title"),
-                    "banner": f"{self.image_base_url}{item.get('backdrop_path')}",
+                    "banner": f"{self.image_base_url_original}{item.get('backdrop_path')}",
                     "poster": f"{self.image_base_url}{item.get('poster_path')}",
                     "ratings": item.get("vote_average"),
                     "release_date": item.get("release_date"),
@@ -74,7 +75,7 @@ class TmdbAPI:
                 {
                     "id": item.get("id"),
                     "title": item.get("name"),
-                    "banner": f"{self.image_base_url}{item.get('backdrop_path')}",
+                    "banner": f"{self.image_base_url_original}{item.get('backdrop_path')}",
                     "poster": f"{self.image_base_url}{item.get('poster_path')}",
                     "ratings": item.get("vote_average"),
                     "release_date": item.get("first_air_date"),
@@ -97,14 +98,14 @@ class TmdbAPI:
         imdb_id = response.get("imdb_id")
         title = response.get("title")
         plot = response.get("overview")
-        banner = f"{self.image_base_url}{response.get('backdrop_path')}"
-        poster = f"{self.image_base_url}{response.get('poster_path')}"
+        banner = f"{self.image_base_url_original}{response.get('backdrop_path')}"
+        poster = f"{self.image_base_url_original}{response.get('poster_path')}"
         genres = [x["name"] for x in response.get("genres")]
         ratings = response.get("vote_average")
         casts = [
             {
                 "name": x["name"],
-                "photo": f"{self.image_base_url}{x['profile_path']}",
+                "photo": f"{self.image_base_url_original}{x['profile_path']}",
             }
             for x in response["credits"]["cast"]
         ]
@@ -136,7 +137,7 @@ class TmdbAPI:
         imdb_id = response.get("imdb_id")
         title = response.get("name")
         plot = response.get("overview")
-        banner = f"{self.image_base_url}{response.get('backdrop_path')}"
+        banner = f"{self.image_base_url_original}{response.get('backdrop_path')}"
         poster = f"{self.image_base_url}{response.get('poster_path')}"
         genres = [x["name"] for x in response.get("genres")]
         ratings = response.get("vote_average")
@@ -179,7 +180,7 @@ class TmdbAPI:
                 {
                     "id": item.get("id"),
                     "title": item["title" if mode == "movie" else "name"],
-                    "banner": f"{self.image_base_url}{item.get('backdrop_path')}",
+                    "banner": f"{self.image_base_url_original}{item.get('backdrop_path')}",
                     "poster": f"{self.image_base_url}{item.get('poster_path')}",
                     "ratings": item.get("vote_average"),
                     "release_date": item[

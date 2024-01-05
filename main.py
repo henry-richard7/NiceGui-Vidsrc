@@ -12,7 +12,15 @@ async def home_page(page_no: int = 1):
 
     nav_bar.init_navbar()
 
-    ui.input(label="Search Movies").props("rounded outlined dense size=100")
+    with ui.row():
+        query = ui.input(label="Search Tv Shows").props(
+            "rounded outlined dense size=100"
+        )
+        ui.button(
+            icon="search",
+            text="Search",
+            on_click=lambda x: ui.open(f"/search?mode=movie&query={query.value}"),
+        )
 
     with ui.grid(columns=6):
         for item in items:
@@ -40,7 +48,15 @@ async def tv_shows(page_no: int = 1):
 
     nav_bar.init_navbar()
 
-    ui.input(label="Search Tv Shows").props("rounded outlined dense size=100")
+    with ui.row():
+        query = ui.input(label="Search Tv Shows").props(
+            "rounded outlined dense size=100"
+        )
+        ui.button(
+            icon="search",
+            text="Search",
+            on_click=lambda x: ui.open(f"/search?mode=tv&query={query.value}"),
+        )
 
     with ui.grid(columns=6):
         for item in items:
@@ -122,6 +138,31 @@ async def watch_tvshows(tmdb_id):
             class="w-[98vw] h-[90vh]"
             ></iframe>"""
     )
+
+
+@ui.page("/search")
+async def search(mode, query):
+    nav_bar.init_navbar()
+    with ui.row():
+        query_ = ui.input(label="Search").props("rounded outlined dense size=100")
+        ui.button(
+            icon="search",
+            text="Search",
+            on_click=lambda x: ui.open(f"/search?mode={mode}&query={query_.value}"),
+        )
+    items = await tmdb_api.search(mode=mode, query=query)
+    ui.label(f"Search Results For: {query}")
+
+    with ui.grid(columns=6):
+        for item in items:
+            item_card.item_card(
+                title=item["title"],
+                poster=item["poster"],
+                href=item["id"],
+                release_date=item["release_date"],
+                ratings=item["ratings"],
+                mode=mode,
+            )
 
 
 ui.run(port=5000)

@@ -100,7 +100,7 @@ class TmdbAPI:
         plot = response.get("overview")
         banner = f"{self.image_base_url_original}{response.get('backdrop_path')}"
         poster = f"{self.image_base_url_original}{response.get('poster_path')}"
-        genres = [x["name"] for x in response.get("genres")]
+        genres = [x["name"] for x in response.get("genres", [])]
         ratings = response.get("vote_average")
         casts = [
             {

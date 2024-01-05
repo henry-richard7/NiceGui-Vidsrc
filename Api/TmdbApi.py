@@ -105,7 +105,9 @@ class TmdbAPI:
         casts = [
             {
                 "name": x["name"],
-                "photo": f"{self.image_base_url_original}{x['profile_path']}",
+                "photo": f"{self.image_base_url_original}{x['profile_path']}"
+                if x["profile_path"] != None
+                else "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
             }
             for x in response["credits"]["cast"]
         ]

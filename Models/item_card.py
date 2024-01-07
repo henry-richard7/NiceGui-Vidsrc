@@ -7,6 +7,7 @@ def item_card(
     release_date: str,
     ratings: float,
     href: str,
+    adult: bool,
     mode: str = "movie",
 ):
     with ui.card().tight():
@@ -23,6 +24,7 @@ def item_card(
                 target_link = f"/watch_movie?tmdb_id={href}"
             else:
                 target_link = f"/watch_tvshows?tmdb_id={href}"
+            ui.label(f"Has Adult Content: {adult}")
             ui.button(
                 icon="visibility",
                 text="WATCH NOW",

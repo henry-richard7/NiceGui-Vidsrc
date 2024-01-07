@@ -13,9 +13,7 @@ async def home_page(page_no: int = 1):
     nav_bar.init_navbar()
 
     with ui.row():
-        query = ui.input(label="Search Tv Shows").props(
-            "rounded outlined dense size=100"
-        )
+        query = ui.input(label="Search Movies").props("rounded outlined dense size=100")
         ui.button(
             icon="search",
             text="Search",
@@ -30,11 +28,12 @@ async def home_page(page_no: int = 1):
                 href=item["id"],
                 release_date=item["release_date"],
                 ratings=item["ratings"],
+                adult=item["adult"],
             )
 
     ui.pagination(
         1,
-        40,
+        page_no + 10,
         direction_links=True,
         on_change=lambda x: ui.open(f"/?page_no={x.value}"),
         value=page_no,
@@ -67,11 +66,12 @@ async def tv_shows(page_no: int = 1):
                 mode="shows",
                 release_date=item["release_date"],
                 ratings=item["ratings"],
+                adult=item["adult"],
             )
 
     ui.pagination(
         1,
-        40,
+        page_no + 10,
         direction_links=True,
         on_change=lambda x: ui.open(f"/shows?page_no={x.value}"),
         value=page_no,
@@ -98,15 +98,30 @@ async def watch_movie(tmdb_id):
                             ui.label(cast["name"]).classes(
                                 "absolute-bottom text-subtitle2 text-center"
                             )
-    ui.html(
-        f"""<iframe 
-            src="https://vidsrc.xyz/embed/movie?imdb={movie_details["imdb_id"]} 
+    with ui.tabs().classes("w-full") as tabs:
+        one = ui.tab("Source 1")
+        two = ui.tab("Source 2")
+    with ui.tab_panels(tabs, value=two).classes("w-full"):
+        with ui.tab_panel(one):
+            ui.html(
+                f"""<iframe 
+            src="https://vidsrc.to/embed/movie/{movie_details["imdb_id"]}"
             frameborder="0"
             allowfullscreen
             scrolling="no"
             class="w-[98vw] h-[90vh]"
             ></iframe>"""
-    )
+            )
+        with ui.tab_panel(two):
+            ui.html(
+                f"""<iframe 
+            src="https://vidsrc.xyz/embed/movie/{movie_details["imdb_id"]}"
+            frameborder="0"
+            allowfullscreen
+            scrolling="no"
+            class="w-[98vw] h-[90vh]"
+            ></iframe>"""
+            )
 
 
 @ui.page("/watch_tvshows")
@@ -129,15 +144,30 @@ async def watch_tvshows(tmdb_id):
                             ui.label(cast["name"]).classes(
                                 "absolute-bottom text-subtitle2 text-center"
                             )
-    ui.html(
-        f"""<iframe 
-            src="https://vidsrc.xyz/embed/tv?imdb={shows_details["imdb_id"]} 
+    with ui.tabs().classes("w-full") as tabs:
+        one = ui.tab("Source 1")
+        two = ui.tab("Source 2")
+    with ui.tab_panels(tabs, value=two).classes("w-full"):
+        with ui.tab_panel(one):
+            ui.html(
+                f"""<iframe 
+            src="https://vidsrc.to/embed/tv/{shows_details["imdb_id"]}"
             frameborder="0"
             allowfullscreen
             scrolling="no"
             class="w-[98vw] h-[90vh]"
             ></iframe>"""
-    )
+            )
+        with ui.tab_panel(two):
+            ui.html(
+                f"""<iframe 
+            src="https://vidsrc.xyz/embed/tv/{shows_details["imdb_id"]}"
+            frameborder="0"
+            allowfullscreen
+            scrolling="no"
+            class="w-[98vw] h-[90vh]"
+            ></iframe>"""
+            )
 
 
 @ui.page("/search")

@@ -20,14 +20,14 @@ class TmdbAPI:
     async def discover_movies(self, page_no: int = 1) -> dict:
         results = list()
 
-        url = "https://api.themoviedb.org/3/discover/movie"
+        url = "https://api.themoviedb.org/3/movie/now_playing"
         params = {
-            "include_adult": False,
+            "include_adult": True,
             "include_video": False,
             "language": "en-US",
             "sort_by": "popularity.desc",
             "api_key": self.tmdb_api_key,
-            "region": "in",
+            # "region": "IN",
             "page": page_no,
         }
 
@@ -46,6 +46,7 @@ class TmdbAPI:
                     "poster": f"{self.image_base_url}{item.get('poster_path')}",
                     "ratings": item.get("vote_average"),
                     "release_date": item.get("release_date"),
+                    "adult": item.get("adult"),
                 }
             )
 
@@ -54,9 +55,9 @@ class TmdbAPI:
     async def discover_shows(self, page_no: int = 1) -> dict:
         results = list()
 
-        url = "https://api.themoviedb.org/3/discover/tv"
+        url = "https://api.themoviedb.org/3/tv/on_the_air"
         params = {
-            "include_adult": False,
+            "include_adult": True,
             "include_video": False,
             "language": "en-US",
             "sort_by": "popularity.desc",
@@ -79,6 +80,7 @@ class TmdbAPI:
                     "poster": f"{self.image_base_url}{item.get('poster_path')}",
                     "ratings": item.get("vote_average"),
                     "release_date": item.get("first_air_date"),
+                    "adult": item.get("adult"),
                 }
             )
 
